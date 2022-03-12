@@ -1,0 +1,82 @@
+﻿@model Projekt.Models.Sites
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Sites</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Categories)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Categories.CategoriesId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Url)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Url)
+        </dd>
+      @*  <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ApplicationUser.UserName)
+        </dd>*@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+    </dl>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Comments</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var comment in Model.Comments)
+    {
+        <tr>
+            <td>@(comment.Comment)</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div id="newComment">
+
+    <form method="post" asp-action="postComment">
+        <label for="Comment">Add Comment</label>
+        <input type="hidden" name="SitesId" value="@Model.SitesId" />
+        <input name="Comment" />
+        <button type="submit">Add</button>
+    </form>
+    
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.SitesId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

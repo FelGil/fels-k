@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Projekt.Models.Sites>
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@Html.DisplayFor(modelItem => Model.First().Categories.Category)</h1>
+
+
+
+@foreach (var item in Model) {
+    <div class="seperatePost">
+        <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+        <p>@Html.DisplayFor(modelItem => item.Description)</p> 
+        <a href="@Html.DisplayFor(modelItem => item.Url)" class="postLink">@Html.DisplayFor(modelItem => item.Url)</a>
+      @*  <p>@Html.DisplayFor(modelItem => item.ApplicationUserId)</p>*@
+        <p class="postDate">@Html.DisplayFor(modelItem => item.Created)</p>
+    </div>
+}
+

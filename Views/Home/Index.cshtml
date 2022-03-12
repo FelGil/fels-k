@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Projekt.Models.Sites>
+
+@{
+    //ViewData["Title"] = "Home Page";
+}
+
+<div class="gridcontainer">
+    <div class="gridcontainer_left">
+        <h1 class="display-4">Welcome to ExSite!</h1>
+        <p>ExSite is a webbapplication where you can share a site on the Internet for mer people to use. 
+            Is it a funny site? A usefull Site? Or maybe something competely new and in some way Pioneering?
+            Share the site here! Write a description and add the link, the world wide web is endless and has much more to show us!</p>
+    </div>
+    <div class="gridcontainer_right">
+
+        <partial name="~/Views/Sites/SitesView.cshtml" />
+        
+        
+    </div>
+</div>
