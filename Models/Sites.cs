@@ -14,17 +14,17 @@ namespace Projekt.Models
         [Display(Name = "Category")]
         public int CategoriesId { get; set; }
         
-        public virtual Categories? Categories { get; set; }
+        public Categories? Categories { get; set; }
         [Required]
         [Display(Name = "Link")]
         public string? Url { get; set; }
-        //[Display(Name = "Username")]
-        //public string? ApplicationUserId { get; set; }
+        [Display(Name = "Username")]
+        public string? ApplicationUserId { get; set; }
         
         public ApplicationUser? ApplicationUser { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
 
-        public virtual ICollection<Comments>? Comments { get; set; }
+        public ICollection<Comments>? Comments { get; set; }
 
     }
 

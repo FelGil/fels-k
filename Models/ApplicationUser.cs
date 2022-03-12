@@ -2,13 +2,13 @@
 
 namespace Projekt.Models
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationUser : IdentityUser
     {
         //public List<Comments>? Comments { get; set; }
 
-        public virtual IEnumerable<Sites>? Sites { get; set; }
+        public  IEnumerable<Sites>? Sites { get; set; }
 
-        public virtual IEnumerable<Comments>? Comments { get; set; }
+        public IEnumerable<Comments>? Comments { get; set; }
 
     }
 }
