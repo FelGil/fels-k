@@ -5,17 +5,24 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>@Html.DisplayFor(modelItem => Model.First().Categories.Category)</h1>
+<h1>@ViewBag.currentCategory.Category</h1>
+
+
 
 
 
 @foreach (var item in Model) {
     <div class="seperatePost">
         <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
-        <p>@Html.DisplayFor(modelItem => item.Description)</p> 
+        <br>
+        <h3>Description of the site:</h3>
+        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+        <br>
+        <h3>The sites link:</h3>
         <a href="@Html.DisplayFor(modelItem => item.Url)" class="postLink">@Html.DisplayFor(modelItem => item.Url)</a>
         <p>@Html.DisplayFor(modelItem => item.ApplicationUserId)</p>
         <p class="postDate">@Html.DisplayFor(modelItem => item.Created)</p>
+        <a asp-action="Details" asp-controller="Sites" asp-route-id="@item.SitesId" class="btn btn-primary">Läs mer</a>
     </div>
 }
 

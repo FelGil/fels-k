@@ -13,5 +13,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Projekt.Models.Sites> Sites { get; set; }
     public DbSet<Projekt.Models.Comments> Comments { get; set; }
     public DbSet<Projekt.Models.Categories> Categories { get; set; }
-    public DbSet<Projekt.Models.ApplicationUser> ApplicationUser { get; set; }
+
 }

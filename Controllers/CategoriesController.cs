@@ -26,6 +26,11 @@ namespace Projekt.Controllers
             return View(await _context.Categories.ToListAsync());
         }
 
+        public async Task<IActionResult> _Layout()
+        {
+            return View(await _context.Categories.ToListAsync());
+        }
+
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {

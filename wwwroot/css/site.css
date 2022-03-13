@@ -25,8 +25,18 @@ h2 {
     font-weight: 700;
 }
 
+h3 {
+    font-weight: 700;
+    font-size: 1.3em;
+}
+
 p {
     font-size: 1.3em;
+}
+
+.navbar-brand {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 2em;
 }
 
 .nav-link:hover {
@@ -61,6 +71,7 @@ p {
     grid-row: 1/1;
     background-color: white;
     padding: 20px;
+    max-height: 700px
 }
 
 .gridcontainer_right {
@@ -104,5 +115,11 @@ footer {
     .gridcontainer_right {
         grid-column: 1/7;
         grid-row: 2/3;
+    }
+
+    .welcome_name {
+        display: none; 
+
+
     }
 }

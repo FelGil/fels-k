@@ -217,13 +217,22 @@ namespace Projekt.Controllers
         public async Task<IActionResult> ViewByCategory(int CategoryId)
         {
 
-            ViewBag.VBFriend = _context.Sites.Include(s => s.Categories);
+            var getCategory = _context.Categories.SingleOrDefault(t => t.CategoriesId == CategoryId);
 
+            ViewBag.currentCategory= getCategory;
+            
             var applicationDbContext = _context.Sites
                 .Include(s => s.Categories)
                 .Where(t => t.CategoriesId == CategoryId);
 
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        private async Task<IActionResult> getBack(int catid)
+        {
+            string previousUrl = Request.Headers["Referer"].ToString();
+
+            return Redirect(previousUrl);
         }
 
         private bool SitesExists(int id)

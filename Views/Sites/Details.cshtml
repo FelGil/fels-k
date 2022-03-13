@@ -1,53 +1,27 @@
 ﻿@model Projekt.Models.Sites
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
+
 }
 
 <h1>Details</h1>
 
-<div>
-    <h4>Sites</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categories)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categories.CategoriesId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Url)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Url)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationUser.UserName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-    </dl>
-</div>
+    <div class="seperatePost">
+        <h2>@Html.DisplayFor(model => model.Title)</h2>
+        <br>
+        <h3>Description of the site:</h3>
+        <p>@Html.DisplayFor(model => model.Description)</p> 
+        <br>
+        <h3>The sites link:</h3>
+        <a href="@Html.DisplayFor(model => model.Url)" class="postLink">@Html.DisplayFor(model => model.Url)</a>
+        <p>@Html.DisplayFor(model => model.ApplicationUserId)</p>
+        <p class="postDate">@Html.DisplayFor(model => model.Created)</p>
+        <hr>
+    
 
 <table>
     <thead>
@@ -64,19 +38,36 @@
     }
     </tbody>
 </table>
-
-<div id="newComment">
-
-    <form method="post" asp-action="postComment">
-        <label for="Comment">Add Comment</label>
-        <input type="hidden" name="SitesId" value="@Model.SitesId" />
-        <input name="Comment" />
-        <button type="submit">Add</button>
-    </form>
-    
 </div>
+<br />
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div id="newComment">
+
+        <form method="post" asp-action="postComment">
+            <label for="Comment">Add Comment</label>
+            <input type="hidden" name="SitesId" value="@Model.SitesId" />
+            <input name="Comment" />
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    
+    </div>
+}
+else
+{
+    <p>You need to log in to post a comment.</p>
+}
+
+<br />
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.SitesId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <!-- Check if user is logged in and if the logged in user is the same who has posted the Site -->
+    @if (SignInManager.IsSignedIn(User) && UserManager.GetUserId(User) == Model.ApplicationUserId)
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.SitesId">Edit |</a>
+    }
+    
+    <!-- <a asp-action="Index">Back to List</a> -->
+    <a href="javascript: history.go(-1)" >Back to List</a>
 </div>
