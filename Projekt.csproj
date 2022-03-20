@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-Projekt-22B80CFF-3EDD-4E98-B79B-C5783B4F069B</UserSecretsId>
+    <ScopedCssEnabled>false</ScopedCssEnabled>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,5 +20,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
   </ItemGroup>
+	
 
 </Project>

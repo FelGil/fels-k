@@ -6,16 +6,17 @@ namespace Projekt.Models
     {
         //Properties
         public int SitesId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please add a Title")]
         public string? Title { get; set; }
+        [Required(ErrorMessage = "Please add a description")]
         public string? Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please add a category")]
         [Display(Name = "Category")]
         public int CategoriesId { get; set; }
         
         public Categories? Categories { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please add a link")]
         [Display(Name = "Link")]
         public string? Url { get; set; }
         [Display(Name = "Username")]

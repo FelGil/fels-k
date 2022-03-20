@@ -33,11 +33,9 @@
                 <input asp-for="Url" class="form-control" />
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Created" class="control-label"></label>
-                <input asp-for="Created" class="form-control" />
-                <span asp-validation-for="Created" class="text-danger"></span>
-            </div>
+            <!-- HIde userid and created they just hold current data and will not be changed -->
+            <input type="hidden" asp-for="Created" class="form-control" />
+            <input type="hidden" asp-for="ApplicationUserId" class="form-control" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -46,7 +44,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <!-- jump back to previous page-->
+    <a href="javascript: history.go(-1)" >Back to List</a>
 </div>
 
 @section Scripts {

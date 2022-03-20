@@ -18,10 +18,10 @@ namespace Projekt.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public SitesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public SitesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -34,14 +34,7 @@ namespace Projekt.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
         
-        // GET: Sites for partial
-        public async Task<IActionResult> SitesView()
-        {
-            var applicationDbContext = _context.Sites.Include(s => s.Categories);
-            
-            return PartialView(await applicationDbContext.ToListAsync());
 
-        }
         // GET: Sites/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -53,6 +46,7 @@ namespace Projekt.Controllers
             var sites = await _context.Sites
                 .Include(s => s.Categories)
                 .Include(s => s.Comments)
+                    .ThenInclude(s => s.ApplicationUser) //get related users to comments
                 .Include(s => s.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.SitesId == id);
             if (sites == null)
@@ -114,7 +108,7 @@ namespace Projekt.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoriesId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesId", sites.CategoriesId);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories, "CategoriesId", "Category", sites.CategoriesId);
             return View(sites);
         }
 
@@ -123,7 +117,7 @@ namespace Projekt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SitesId,Title,Description,CategoriesId,Url,UserID,Created")] Sites sites)
+        public async Task<IActionResult> Edit(int id, [Bind("SitesId,Title,Description,CategoriesId,Url,ApplicationUserId,Created")] Sites sites)
         {
             if (id != sites.SitesId)
             {
@@ -148,10 +142,11 @@ namespace Projekt.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("UserSites");
             }
             ViewData["CategoriesId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesId", sites.CategoriesId);
-            return View(sites);
+
+            return RedirectToAction("UserSites");
         }
 
         // GET: Sites/Delete/5
@@ -165,6 +160,7 @@ namespace Projekt.Controllers
 
             var sites = await _context.Sites
                 .Include(s => s.Categories)
+                .Include(s => s.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.SitesId == id);
             if (sites == null)
             {
@@ -182,7 +178,7 @@ namespace Projekt.Controllers
             var sites = await _context.Sites.FindAsync(id);
             _context.Sites.Remove(sites);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("UserSites", "Sites");
         }
 
         // Post comment to a Site
@@ -194,15 +190,19 @@ namespace Projekt.Controllers
             {
                 SitesId = com.SitesId,
                 Comment = com.Comment,
-                UserId = userId,
+                ApplicationUserId = userId,
             });
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", new
+            {
+                id = com.SitesId
+            });
 
         }
 
         // GET: Sites for logged in user. 
+        [Authorize]
         public async Task<IActionResult> UserSites()
         {
             var userId = _userManager.GetUserId(User);
@@ -218,21 +218,15 @@ namespace Projekt.Controllers
         {
 
             var getCategory = _context.Categories.SingleOrDefault(t => t.CategoriesId == CategoryId);
-
             ViewBag.currentCategory= getCategory;
             
             var applicationDbContext = _context.Sites
                 .Include(s => s.Categories)
+                .Include(s => s.ApplicationUser)
+                .OrderByDescending(s => s.Created)
                 .Where(t => t.CategoriesId == CategoryId);
 
             return View(await applicationDbContext.ToListAsync());
-        }
-
-        private async Task<IActionResult> getBack(int catid)
-        {
-            string previousUrl = Request.Headers["Referer"].ToString();
-
-            return Redirect(previousUrl);
         }
 
         private bool SitesExists(int id)

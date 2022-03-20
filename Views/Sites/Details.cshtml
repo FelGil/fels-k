@@ -1,7 +1,7 @@
 ﻿@model Projekt.Models.Sites
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
@@ -10,34 +10,35 @@
 
 <h1>Details</h1>
 
-    <div class="seperatePost">
+<div class="seperatePost">
         <h2>@Html.DisplayFor(model => model.Title)</h2>
         <br>
         <h3>Description of the site:</h3>
         <p>@Html.DisplayFor(model => model.Description)</p> 
         <br>
         <h3>The sites link:</h3>
-        <a href="@Html.DisplayFor(model => model.Url)" class="postLink">@Html.DisplayFor(model => model.Url)</a>
-        <p>@Html.DisplayFor(model => model.ApplicationUserId)</p>
+        <a href="@Html.DisplayFor(model => model.Url)" class="postLink">¨Click here to visit</a>
+        <br>
+        <p class="comment">Posted by: @Html.DisplayFor(model => model.ApplicationUser.Firstname) @Html.DisplayFor(model => model.ApplicationUser.Lastname)</p>
         <p class="postDate">@Html.DisplayFor(model => model.Created)</p>
         <hr>
     
 
-<table>
-    <thead>
-    <tr>
-        <th>Comments</th>
-    </tr>
-    </thead>
-    <tbody>
+
+        <h4>Comments</h4>
+   <div>
     @foreach (var comment in Model.Comments)
     {
-        <tr>
-            <td>@(comment.Comment)</td>
-        </tr>
+            <p class="comment">@(comment.Comment)</p>
+            <p class="commentBy">@(comment.ApplicationUser?.Firstname) @(comment.ApplicationUser?.Lastname)</p>
+            @if (SignInManager.IsSignedIn(User) && UserManager.GetUserId(User) == comment.ApplicationUserId)
+            {
+                <a asp-action="Delete" asp-controller="Comments" asp-route-id="@comment.CommentsId"> Delete comment </a>
+            }
+            <hr>
+
     }
-    </tbody>
-</table>
+    </div>
 </div>
 <br />
 
@@ -48,7 +49,7 @@
         <form method="post" asp-action="postComment">
             <label for="Comment">Add Comment</label>
             <input type="hidden" name="SitesId" value="@Model.SitesId" />
-            <input name="Comment" />
+            <input name="Comment" required oninvalid="this.setCustomValidity('Please add a comment befor you press ADD')"/>
             <button type="submit" class="btn btn-primary">Add</button>
         </form>
     
@@ -68,6 +69,6 @@ else
         <a asp-action="Edit" asp-route-id="@Model?.SitesId">Edit |</a>
     }
     
-    <!-- <a asp-action="Index">Back to List</a> -->
+    <!-- jump back to previous page-->
     <a href="javascript: history.go(-1)" >Back to List</a>
 </div>

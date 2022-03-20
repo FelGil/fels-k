@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                @Html.DisplayNameFor(model => model.ApplicationUserId)
             </th>
             <th></th>
         </tr>
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Comment)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                @Html.DisplayFor(modelItem => item.ApplicationUserId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CommentsId">Edit</a> |

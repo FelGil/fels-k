@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Categories
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Categories.ToListAsync());
@@ -32,6 +34,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Categories/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,6 +53,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Categories/Create
+
         public IActionResult Create()
         {
             return View();
@@ -72,6 +76,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Categories/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,6 +128,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

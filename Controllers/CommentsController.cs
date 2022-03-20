@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,9 @@ namespace Projekt.Controllers
             _context = context;
         }
 
+
         // GET: Comments
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Comments.Include(c => c.Sites);
@@ -28,6 +31,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Comments/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +51,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Comments/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["SitesId"] = new SelectList(_context.Sites, "SitesId", "SitesId");
@@ -71,6 +76,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Comments/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,6 +130,7 @@ namespace Projekt.Controllers
         }
 
         // GET: Comments/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,6 +140,7 @@ namespace Projekt.Controllers
 
             var comments = await _context.Comments
                 .Include(c => c.Sites)
+                .Include(c => c.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.CommentsId == id);
             if (comments == null)
             {
@@ -150,7 +158,7 @@ namespace Projekt.Controllers
             var comments = await _context.Comments.FindAsync(id);
             _context.Comments.Remove(comments);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Home");
         }
 
         private bool CommentsExists(int id)

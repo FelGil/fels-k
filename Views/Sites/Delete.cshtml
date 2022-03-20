@@ -27,7 +27,7 @@
             @Html.DisplayNameFor(model => model.Categories)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categories.CategoriesId)
+            @Html.DisplayFor(model => model.Categories.Category)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Url)
@@ -39,7 +39,7 @@
             @Html.DisplayNameFor(model => model.ApplicationUserId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationUserId)
+            @Html.DisplayFor(model => model.ApplicationUser.UserName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Created)
@@ -52,6 +52,7 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="SitesId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <!-- jump back to previous page-->
+        <a href="javascript: history.go(-1)" >Back to List</a>
     </form>
 </div>

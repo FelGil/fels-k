@@ -18,10 +18,15 @@ public class HomeController : Controller
         _context = context;
     }
 
-    //public IActionResult Index()
+    
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Sites.Include(s => s.Categories);
+        // Get: Posts on the first page.
+        var applicationDbContext = _context.Sites
+            .Include(s => s.Categories)
+            .Include(s => s.ApplicationUser)
+            .OrderByDescending(s => s.Created)
+            .Take(5);
         return View(await applicationDbContext.ToListAsync());
     }
 
